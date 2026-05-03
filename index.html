@@ -1,1 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Hangout — find your people</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
 
+  <!-- ══ NAV ══════════════════════════════════════ -->
+  <nav class="nav">
+    <div class="nav-logo">hang<span>out</span></div>
+
+    <div class="nav-links">
+      <button class="nav-link active" data-page="discover">
+        <span class="nav-icon">🔭</span> Discover
+      </button>
+      <button class="nav-link" data-page="connections">
+        <span class="nav-icon">👥</span> Friends
+      </button>
+      <button class="nav-link" data-page="messages">
+        <span class="nav-icon">✉️</span> Messages
+      </button>
+      <button class="nav-link" data-page="notifications">
+        <span class="nav-icon">🔔</span> Notifs
+      </button>
+      <button class="nav-link" data-page="profile">
+        <span class="nav-icon">🙂</span> My Profile
+      </button>
+    </div>
+
+    <div class="nav-right">
+      <button class="theme-toggle" id="themeToggle" title="Toggle theme">🌙</button>
+      <div class="nav-avatar" data-page="profile" style="width:38px;height:38px;border-radius:50%;border:2px solid var(--accent);display:flex;align-items:center;justify-content:center;font-size:1.3rem;cursor:pointer;background:var(--bg-card)">🦋</div>
+    </div>
+  </nav>
+
+  <!-- ══ MAIN ══════════════════════════════════════ -->
+  <main class="main-content">
+
+    <!-- ── DISCOVER PAGE ────────────────────────── -->
+    <div class="page active" id="page-discover">
+      <div class="page-header">
+        <div class="page-title">Discover People 🔭</div>
+        <div class="page-subtitle">Find your people. No swiping, no pressure.</div>
+      </div>
+
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input class="search-input" id="discoverSearch" placeholder="search by name, vibe, or interest..." />
+      </div>
+
+      <div class="discover-filters">
+        <button class="filter-chip active" data-filter="all">✨ Everyone</button>
+        <button class="filter-chip" data-filter="music">🎵 Music</button>
+        <button class="filter-chip" data-filter="gaming">🎮 Gaming</button>
+        <button class="filter-chip" data-filter="art">🎨 Art</button>
+        <button class="filter-chip" data-filter="books">📚 Books</button>
+        <button class="filter-chip" data-filter="outdoors">🏄 Outdoors</button>
+        <button class="filter-chip" data-filter="film">🎬 Film</button>
+        <button class="filter-chip" data-filter="writing">✍️ Writing</button>
+      </div>
+
+      <div class="profiles-grid" id="profilesGrid">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <!-- ── MY PROFILE PAGE ──────────────────────── -->
+    <div class="page" id="page-profile">
+      <div class="page-header">
+        <div class="page-title">My Profile 🙂</div>
+        <div class="page-subtitle">This is what other people see when they find you.</div>
+      </div>
+
+      <div class="profile-layout">
+
+        <!-- Sidebar -->
+        <div class="profile-sidebar">
+
+          <!-- Hero card -->
+          <div class="profile-hero">
+            <div class="profile-banner" id="myBanner"></div>
+            <div class="profile-avatar-wrap">
+              <div class="profile-avatar" id="myAvatar"></div>
+              <button class="btn btn-secondary btn-sm profile-edit-btn" onclick="showToast('Edit coming soon!')">✏️ Edit</button>
+            </div>
+            <div class="profile-info">
+              <div class="profile-name" id="myName"></div>
+              <div class="profile-handle" id="myHandle"></div>
+              <div class="profile-status" id="myStatus"></div>
+              <div class="profile-bio" id="myBio"></div>
+              <div class="profile-tags" id="myTags"></div>
+              <div class="profile-stats">
+                <div class="stat">
+                  <div class="stat-num" id="myStatFriends"></div>
+                  <div class="stat-label">Friends</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-num" id="myStatVibes"></div>
+                  <div class="stat-label">Vibes</div>
+                </div>
+                <div class="stat">
+                  <div class="stat-num" id="myStatJoined"></div>
+                  <div class="stat-label">Joined</div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Now Playing -->
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">🎵 Now Playing</div>
+            <div class="now-playing">
+              <div class="now-playing-art">🎵</div>
+              <div class="now-playing-info">
+                <div class="now-playing-song" id="myNowSong"></div>
+                <div class="now-playing-artist" id="myNowArtist"></div>
+              </div>
+            </div>
+            <div class="now-playing-bar">
+              <div class="now-playing-progress"></div>
+            </div>
+          </div>
+
+          <!-- Top 8 -->
+          <div class="sidebar-card">
+            <div class="sidebar-card-title">⭐ Top 8</div>
+            <div class="top8-grid" id="myTop8"></div>
+          </div>
+
+        </div>
+
+        <!-- Main column -->
+        <div class="profile-main">
+
+          <!-- About / Q&A -->
+          <div class="profile-section">
+            <div class="profile-section-title">💬 Q&amp;A</div>
+            <div class="qa-list" id="myQA"></div>
+          </div>
+
+          <!-- Safety section -->
+          <div class="profile-section">
+            <div class="profile-section-title">🛡️ Safety &amp; Privacy</div>
+            <div style="display:flex;flex-direction:column;gap:10px;font-size:0.875rem;color:var(--text-secondary)">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                <span>Show my city/region</span>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Setting updated!')">On</button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                <span>Allow messages from strangers</span>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Setting updated!')">On</button>
+              </div>
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:12px;background:var(--bg);border-radius:var(--radius-sm)">
+                <span>Show online status</span>
+                <button class="btn btn-secondary btn-sm" onclick="showToast('Setting updated!')">On</button>
+              </div>
+              <div style="margin-top:4px">
+                <button class="btn btn-ghost" style="color:var(--accent);font-size:0.82rem" onclick="showToast('Report submitted — thank you!')">🚩 Report a concern</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+    <!-- ── MESSAGES PAGE ─────────────────────────── -->
+    <div class="page" id="page-messages">
+      <div class="page-header">
+        <div class="page-title">Messages ✉️</div>
+        <div class="page-subtitle">Your conversations.</div>
+      </div>
+
+      <div class="messages-layout">
+        <div class="convo-list">
+          <div class="convo-list-header">Chats</div>
+          <div id="convoList"></div>
+        </div>
+        <div class="chat-window" id="chatWindow"></div>
+      </div>
+    </div>
+
+    <!-- ── CONNECTIONS PAGE ──────────────────────── -->
+    <div class="page" id="page-connections">
+      <div class="page-header">
+        <div class="page-title">Friends 👥</div>
+        <div class="page-subtitle">People you've connected with.</div>
+      </div>
+
+      <div class="section-divider">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-text">6 connections</div>
+        <div class="section-divider-line"></div>
+      </div>
+
+      <div class="connections-grid" id="connectionsGrid"></div>
+
+      <div class="section-divider" style="margin-top:32px">
+        <div class="section-divider-line"></div>
+        <div class="section-divider-text">Pending (2)</div>
+        <div class="section-divider-line"></div>
+      </div>
+
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div class="card" style="padding:16px;display:flex;align-items:center;gap:14px">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--bg);font-size:1.4rem;display:flex;align-items:center;justify-content:center">🌙</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:0.9rem">Nova Bell</div>
+            <div style="font-size:0.78rem;color:var(--text-muted)">@novabell · sent you a hey!</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="showToast('✅ Accepted!')">Accept</button>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Declined.')">Decline</button>
+          </div>
+        </div>
+        <div class="card" style="padding:16px;display:flex;align-items:center;gap:14px">
+          <div style="width:48px;height:48px;border-radius:50%;background:var(--bg);font-size:1.4rem;display:flex;align-items:center;justify-content:center">🎯</div>
+          <div style="flex:1">
+            <div style="font-weight:600;font-size:0.9rem">Eli March</div>
+            <div style="font-size:0.78rem;color:var(--text-muted)">@elimarch · wants to connect</div>
+          </div>
+          <div style="display:flex;gap:8px">
+            <button class="btn btn-primary btn-sm" onclick="showToast('✅ Accepted!')">Accept</button>
+            <button class="btn btn-secondary btn-sm" onclick="showToast('Declined.')">Decline</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── NOTIFICATIONS PAGE ────────────────────── -->
+    <div class="page" id="page-notifications">
+      <div class="page-header">
+        <div class="page-title">Notifications 🔔</div>
+        <div class="page-subtitle">What's been happening.</div>
+      </div>
+
+      <div style="display:flex;justify-content:flex-end;margin-bottom:16px">
+        <button class="btn btn-ghost" onclick="showToast('All marked as read!')">Mark all read ✓</button>
+      </div>
+
+      <div class="notif-list" id="notifList"></div>
+    </div>
+
+  </main>
+
+  <!-- ══ PROFILE MODAL ═══════════════════════════ -->
+  <div class="modal-overlay" id="profileModal">
+    <div class="modal">
+      <div class="modal-header">
+        <div class="modal-title" id="modalProfileName"></div>
+        <button class="modal-close">✕</button>
+      </div>
+
+      <div style="border-radius:12px;overflow:hidden;margin-bottom:-32px">
+        <div id="modalProfileBanner" style="height:90px"></div>
+      </div>
+      <div style="padding:0 4px;position:relative;margin-bottom:12px">
+        <div id="modalProfileAvatar" style="width:64px;height:64px;border-radius:50%;border:3px solid var(--bg-card);background:var(--bg);font-size:2rem;display:flex;align-items:center;justify-content:center;position:relative;top:-20px"></div>
+      </div>
+
+      <div style="font-size:0.82rem;color:var(--text-muted);margin-top:-12px;margin-bottom:8px" id="modalProfileHandle"></div>
+      <div style="font-size:0.875rem;font-style:italic;color:var(--text-secondary);margin-bottom:14px" id="modalProfileVibe"></div>
+      <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px" id="modalProfileTags"></div>
+
+      <div style="padding:14px;background:var(--bg);border-radius:var(--radius-sm);font-size:0.82rem;color:var(--accent);margin-bottom:20px">
+        🛡️ You can block or report this user at any time using the flag button in messages.
+      </div>
+
+      <div style="display:flex;gap:10px">
+        <button class="btn btn-primary" style="flex:1" id="modalHeyBtn">👋 Send Hey!</button>
+        <button class="btn btn-secondary" style="flex:1" id="modalMsgBtn">✉️ Message</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ TOAST ════════════════════════════════════ -->
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>
